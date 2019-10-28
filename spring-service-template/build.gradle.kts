@@ -20,6 +20,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("io.spring.dependency-management") version "1.0.8.RELEASE"
+    
+    id("com.diffplug.gradle.spotless") version "3.25.0"
 
     // Apply the application plugin to add support for building a CLI application.
     application
@@ -59,6 +61,18 @@ dependencies {
 
     // Env variable resolution
     implementation("io.github.cdimascio:java-dotenv:5.1.0")
+}
+
+// Configure code formatter to use google-java-format
+spotless {
+    java {
+        googleJavaFormat()
+        target("src/**/*.java")
+    }
+    kotlin {
+        ktlint("0.33.0").userData(mapOf("max_line_length" to "120"))
+        target("src/**/*.kt")
+    }
 }
 
 application {
